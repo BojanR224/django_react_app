@@ -11,7 +11,7 @@ import ChessGame from "./ChessGame";
 import { Link } from "react-router-dom";
 import { FormHelperText, Typography } from "@material-ui/core";
 
-export default function Test() {
+export default function Test(props) {
   return (
     <Grid container spacing={1}>
       <Grid item xs={3} align="center">
@@ -23,7 +23,7 @@ export default function Test() {
         <Typography component="h4" variant="h4">
           Chess Game
         </Typography>
-        <ChessGame />
+        <ChessGame data={props} />
       </Grid>
       <Grid item xs={3} align="center">
         <Typography component="h4" variant="h4">

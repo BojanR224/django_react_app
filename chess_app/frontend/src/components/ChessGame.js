@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 
-const ChessGame = () => {
+const ChessGame = (props) => {
   const [boardPosition, setBoardPosition] = useState("start");
-  const [chess, setChess] = useState(new Chess());
+  const [chess, setChess] = useState(
+    new Chess(
+      props.fen
+        ? props.fen
+        : "rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR b KQkq - 0 1"
+    )
+  );
   const [selectedSquare, setSelectedSquare] = useState(null);
 
   const handleSquareClick = (square) => {
@@ -15,6 +21,10 @@ const ChessGame = () => {
       highlightValidMoves(square);
     }
   };
+
+  useEffect(() => {
+    setBoardPosition(chess.fen());
+  }, []);
 
   const highlightValidMoves = (square) => {
     const validMoves = chess.moves({ square, verbose: true });
