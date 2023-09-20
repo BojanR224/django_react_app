@@ -4,7 +4,7 @@ from .serializers import ChessSerializer, FenSerializer
 from .models import Chess, Fen
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from api.chess_notation import ImageToFen
+# from api.chess_recognition import ImageToFen
 
 # Create your views here.
 class ChessView(generics.CreateAPIView):
@@ -25,9 +25,9 @@ class PostImageView(APIView):
             serializer.validated_data['image'].name = 'chess_image.png' 
             serializer.save()
 
-            fen = ImageToFen().get_fen()
+            # fen = ImageToFen().get_fen()
 
-            return Response(fen, status=status.HTTP_201_CREATED)
+            return Response({'fen': 'rnbqkb1r/ppp1ppp1/5n1p/1B1p4/4P3/1P3N2/P1PP1PPP/RNBQK2R b KQkq - 1 4'}, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
