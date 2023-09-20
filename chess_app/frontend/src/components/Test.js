@@ -1,17 +1,13 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import ChessGame from "./ChessGame";
-import { Link } from "react-router-dom";
-import { FormHelperText, Typography } from "@material-ui/core";
+import { Link, useLocation } from "react-router-dom";
+import { Typography } from "@material-ui/core";
 
-export default function Test(props) {
+export default function Test() {
+  const { state } = useLocation();
+
   return (
     <Grid container spacing={1}>
       <Grid item xs={3} align="center">
@@ -23,7 +19,7 @@ export default function Test(props) {
         <Typography component="h4" variant="h4">
           Chess Game
         </Typography>
-        <ChessGame data={props} />
+        <ChessGame fen={state?.fen} />
       </Grid>
       <Grid item xs={3} align="center">
         <Typography component="h4" variant="h4">

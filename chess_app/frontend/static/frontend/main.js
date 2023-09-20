@@ -9707,10 +9707,10 @@ function getDoneFetcher(data) {
 
 /***/ }),
 
-/***/ "./src/components/App.js":
-/*!*******************************!*\
-  !*** ./src/components/App.js ***!
-  \*******************************/
+/***/ "./src/App.js":
+/*!********************!*\
+  !*** ./src/App.js ***!
+  \********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9720,10 +9720,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _HomePage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./HomePage */ "./src/components/HomePage.js");
-/* harmony import */ var chess_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! chess.js */ "./node_modules/chess.js/dist/esm/chess.js");
-/* harmony import */ var _ChessGame__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ChessGame */ "./src/components/ChessGame.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _pages_CapturePhotoPage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./pages/CapturePhotoPage */ "./src/pages/CapturePhotoPage.js");
+/* harmony import */ var _components_ChessGame__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ChessGame */ "./src/components/ChessGame.js");
+/* harmony import */ var _components_Test__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Test */ "./src/components/Test.js");
+/* harmony import */ var _pages_HomePage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./pages/HomePage */ "./src/pages/HomePage.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
 
 
 
@@ -9735,20 +9742,237 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     super(props);
   }
   render() {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_HomePage__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Routes, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        path: "/*",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_pages_HomePage__WEBPACK_IMPORTED_MODULE_5__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        path: "/test",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_Test__WEBPACK_IMPORTED_MODULE_4__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        path: "/chess",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_3__["default"], {})
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Route, {
+        path: "/capture",
+        element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_pages_CapturePhotoPage__WEBPACK_IMPORTED_MODULE_2__["default"], {})
+      })]
     });
   }
 }
 const appDiv = document.getElementById("app");
-(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(App, {}), appDiv);
+(0,react_dom__WEBPACK_IMPORTED_MODULE_1__.render)( /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react__WEBPACK_IMPORTED_MODULE_0__.StrictMode, {
+  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.BrowserRouter, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(App, {})
+  })
+}), appDiv);
 
 /***/ }),
 
-/***/ "./src/components/CapturePhotoButton.js":
-/*!**********************************************!*\
-  !*** ./src/components/CapturePhotoButton.js ***!
-  \**********************************************/
+/***/ "./src/components/ChessGame.js":
+/*!*************************************!*\
+  !*** ./src/components/ChessGame.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_chessboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chessboard */ "./node_modules/react-chessboard/dist/index.esm.js");
+/* harmony import */ var chess_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chess.js */ "./node_modules/chess.js/dist/esm/chess.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+const ChessGame = ({
+  fen
+}) => {
+  const [boardPosition, setBoardPosition] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("start");
+  const [chess, setChess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new chess_js__WEBPACK_IMPORTED_MODULE_2__.Chess(fen ? fen : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+  const [selectedSquare, setSelectedSquare] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+  const [bestMoves, setBestMoves] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const handleSquareClick = square => {
+    const piece = chess.get(square);
+    if (piece && piece.color === chess.turn()) {
+      setSelectedSquare(square);
+      highlightValidMoves(square);
+    }
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setBoardPosition(chess.fen());
+  }, []);
+  const highlightValidMoves = square => {
+    const validMoves = chess.moves({
+      square,
+      verbose: true
+    });
+    const highlightedSquares = validMoves.map(move => move.to);
+    highlightedSquares.push(square);
+    setBoardPosition(prevPosition => ({
+      ...prevPosition,
+      lastSquareToHighlight: highlightedSquares
+    }));
+  };
+  const handleMove = (fromSquare, toSquare) => {
+    const move = chess.move({
+      from: fromSquare,
+      to: toSquare,
+      promotion: "q" // You can change the promotion piece if needed
+    });
+
+    if (move) {
+      setSelectedSquare(null);
+      setBoardPosition(chess.fen());
+    }
+  };
+  const fetchBestMoves = async () => {
+    try {
+      // Make an Axios GET request to your Django API endpoint
+      const response = await axios.get("YOUR_API_ENDPOINT_HERE");
+
+      // Assuming your API response contains an array of best moves
+      setBestMoves(response.data.bestMoves);
+    } catch (error) {
+      console.error("Error fetching best moves:", error);
+    }
+  };
+  const resetBoard = () => {
+    chess.reset();
+    setSelectedSquare(null);
+    setBoardPosition(chess.fen());
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "chessboard",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_chessboard__WEBPACK_IMPORTED_MODULE_1__.Chessboard, {
+      position: boardPosition,
+      onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare),
+      onSquareClick: square => handleSquareClick(square)
+      // customArrows={bestMoves.map((move) => ({
+      //   from: move.from,
+      //   to: move.to,
+      // }))}
+    }), chess.inCheck() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+      children: "King is under attack!"
+    }), chess.isCheckmate() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
+        children: "Checkmate!"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+        onClick: resetBoard,
+        children: "New Game"
+      })]
+    })]
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChessGame);
+
+/***/ }),
+
+/***/ "./src/components/Test.js":
+/*!********************************!*\
+  !*** ./src/components/Test.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Test)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _ChessGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChessGame */ "./src/components/ChessGame.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+function Test() {
+  const {
+    state
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    container: true,
+    spacing: 1,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 3,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        component: "h4",
+        variant: "h4",
+        children: "Chess Statistics"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 6,
+      align: "center",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        component: "h4",
+        variant: "h4",
+        children: "Chess Game"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        fen: state === null || state === void 0 ? void 0 : state.fen
+      })]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 3,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        component: "h4",
+        variant: "h4",
+        children: "Chess Statistics"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 4,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        color: "secondary",
+        variant: "contained",
+        to: "/capture",
+        component: react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link,
+        children: "Capture Photo"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 4,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        color: "secondary",
+        variant: "contained",
+        children: "Import Photo"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      item: true,
+      xs: 4,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        color: "secondary",
+        variant: "contained",
+        children: "Show Statistics"
+      })
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./src/pages/CapturePhotoPage.js":
+/*!***************************************!*\
+  !*** ./src/pages/CapturePhotoPage.js ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9799,26 +10023,30 @@ function CameraComponent() {
           "Content-type": "multipart/form-data; boundary=${formData._boundary}"
         }
       };
-      (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-        (async () => {
-          await axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/api/send-image", formData, config).then(res => {
-            setFen(fen, res.data);
-            console.log(res);
-          });
-        })();
-      }, []);
 
-      //   await axios.post("/api/send-image", formData, config).then((res) => {
-      //     setFen(fen, res.data);
-      //     console.log(res);
-      //   });
+      // useEffect(() => {
+      //   (async () => {
+      //     await axios.post("/api/send-image", formData, config).then((res) => {
+      //       setFen(fen, res.data);
+      //       console.log(res);
+      //     });
+      //   })();
+      // }, []);
+
+      await axios__WEBPACK_IMPORTED_MODULE_3__["default"].post("/api/send-image", formData, config).then(res => {
+        setFen(fen, res.data["fen"]);
+        console.log(res);
+        console.log(res.data["fen"]);
+        navigate("/test", {
+          state: {
+            'fen': res.data["fen"]
+          }
+        });
+      });
     } catch (error) {
       console.error("Error uploading image:", error);
     }
     console.log(fen);
-    navigate("/test", {
-      state: fen
-    });
   };
 
   // Function to capture and save a photo
@@ -9866,95 +10094,10 @@ function CameraComponent() {
 
 /***/ }),
 
-/***/ "./src/components/ChessGame.js":
-/*!*************************************!*\
-  !*** ./src/components/ChessGame.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_chessboard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-chessboard */ "./node_modules/react-chessboard/dist/index.esm.js");
-/* harmony import */ var chess_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chess.js */ "./node_modules/chess.js/dist/esm/chess.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-const ChessGame = props => {
-  const [boardPosition, setBoardPosition] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("start");
-  const [chess, setChess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new chess_js__WEBPACK_IMPORTED_MODULE_2__.Chess(props.fen ? props.fen : "rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR b KQkq - 0 1"));
-  const [selectedSquare, setSelectedSquare] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const handleSquareClick = square => {
-    const piece = chess.get(square);
-    if (piece && piece.color === chess.turn()) {
-      setSelectedSquare(square);
-      highlightValidMoves(square);
-    }
-  };
-  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
-    setBoardPosition(chess.fen());
-  }, []);
-  const highlightValidMoves = square => {
-    const validMoves = chess.moves({
-      square,
-      verbose: true
-    });
-    const highlightedSquares = validMoves.map(move => move.to);
-    highlightedSquares.push(square);
-    setBoardPosition(prevPosition => ({
-      ...prevPosition,
-      lastSquareToHighlight: highlightedSquares
-    }));
-  };
-  const handleMove = (fromSquare, toSquare) => {
-    const move = chess.move({
-      from: fromSquare,
-      to: toSquare,
-      promotion: "q" // You can change the promotion piece if needed
-    });
-
-    if (move) {
-      setSelectedSquare(null);
-      setBoardPosition(chess.fen());
-    }
-  };
-  const resetBoard = () => {
-    chess.reset();
-    setSelectedSquare(null);
-    setBoardPosition(chess.fen());
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-    className: "chessboard",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_chessboard__WEBPACK_IMPORTED_MODULE_1__.Chessboard, {
-      position: boardPosition,
-      onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare),
-      onSquareClick: square => handleSquareClick(square)
-    }), chess.inCheck() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      children: "King is under attack!"
-    }), chess.isCheckmate() && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-        children: "Checkmate!"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
-        onClick: resetBoard,
-        children: "New Game"
-      })]
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChessGame);
-
-/***/ }),
-
-/***/ "./src/components/HomePage.js":
-/*!************************************!*\
-  !*** ./src/components/HomePage.js ***!
-  \************************************/
+/***/ "./src/pages/HomePage.js":
+/*!*******************************!*\
+  !*** ./src/pages/HomePage.js ***!
+  \*******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -9963,138 +10106,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ HomePage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _CapturePhotoButton__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CapturePhotoButton */ "./src/components/CapturePhotoButton.js");
-/* harmony import */ var _ChessGame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ChessGame */ "./src/components/ChessGame.js");
-/* harmony import */ var _Test__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Test */ "./src/components/Test.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
-
-
-
-class HomePage extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.BrowserRouter, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Routes, {
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
-          path: "/test",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Test__WEBPACK_IMPORTED_MODULE_3__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
-          path: "/chess",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_ChessGame__WEBPACK_IMPORTED_MODULE_2__["default"], {})
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
-          path: "/capture",
-          element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_CapturePhotoButton__WEBPACK_IMPORTED_MODULE_1__["default"], {})
+function HomePage() {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Routes, {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Route, {
+      path: "/",
+      element: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+          to: "/capture",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            children: "Take a Picture"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+          to: "/chess",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            children: "Play Chess"
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.Link, {
+          to: "/test",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
+            children: "Test"
+          })
         })]
       })
-    });
-  }
-}
-
-/***/ }),
-
-/***/ "./src/components/Test.js":
-/*!********************************!*\
-  !*** ./src/components/Test.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Test)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
-/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/Button.js");
-/* harmony import */ var _ChessGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChessGame */ "./src/components/ChessGame.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var _material_ui_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core */ "./node_modules/@material-ui/core/esm/Typography/Typography.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function Test(props) {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-    container: true,
-    spacing: 1,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 3,
-      align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        component: "h4",
-        variant: "h4",
-        children: "Chess Statistics"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 6,
-      align: "center",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        component: "h4",
-        variant: "h4",
-        children: "Chess Game"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        data: props
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 3,
-      align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        component: "h4",
-        variant: "h4",
-        children: "Chess Statistics"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 4,
-      align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        color: "secondary",
-        variant: "contained",
-        to: "/capture",
-        component: react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Link,
-        children: "Capture Photo"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 4,
-      align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        color: "secondary",
-        variant: "contained",
-        children: "Import Photo"
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      item: true,
-      xs: 4,
-      align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
-        color: "secondary",
-        variant: "contained",
-        children: "Show Statistics"
-      })
-    })]
+    })
   });
 }
 
@@ -56207,7 +56248,7 @@ var __webpack_exports__ = {};
   !*** ./src/index.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/App */ "./src/components/App.js");
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App */ "./src/App.js");
 
 })();
 

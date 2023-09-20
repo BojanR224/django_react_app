@@ -36,24 +36,25 @@ function CameraComponent() {
         },
       };
 
-      useEffect(() => {
-        (async () => {
-          await axios.post("/api/send-image", formData, config).then((res) => {
-            setFen(fen, res.data);
-            console.log(res);
-          });
-        })();
-      }, []);
+      // useEffect(() => {
+      //   (async () => {
+      //     await axios.post("/api/send-image", formData, config).then((res) => {
+      //       setFen(fen, res.data);
+      //       console.log(res);
+      //     });
+      //   })();
+      // }, []);
 
-      //   await axios.post("/api/send-image", formData, config).then((res) => {
-      //     setFen(fen, res.data);
-      //     console.log(res);
-      //   });
+      await axios.post("/api/send-image", formData, config).then((res) => {
+        setFen(fen, res.data["fen"]);
+        console.log(res);
+        console.log(res.data["fen"]);
+        navigate("/test", { state: { 'fen': res.data["fen"]} });
+      });
     } catch (error) {
       console.error("Error uploading image:", error);
     }
     console.log(fen);
-    navigate("/test", { state: fen });
   };
 
   // Function to capture and save a photo

@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 
-const ChessGame = (props) => {
+const ChessGame = ({ fen }) => {
   const [boardPosition, setBoardPosition] = useState("start");
   const [chess, setChess] = useState(
     new Chess(
-      props.fen
-        ? props.fen
-        : "rnbqkbnr/pppppppp/8/8/8/7P/PPPPPPP1/RNBQKBNR b KQkq - 0 1"
+      fen ? fen : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     )
   );
   const [selectedSquare, setSelectedSquare] = useState(null);
+  const [bestMoves, setBestMoves] = useState([]);
 
   const handleSquareClick = (square) => {
     const piece = chess.get(square);
@@ -51,6 +50,18 @@ const ChessGame = (props) => {
     }
   };
 
+  const fetchBestMoves = async () => {
+    try {
+      // Make an Axios GET request to your Django API endpoint
+      const response = await axios.get("YOUR_API_ENDPOINT_HERE");
+
+      // Assuming your API response contains an array of best moves
+      setBestMoves(response.data.bestMoves);
+    } catch (error) {
+      console.error("Error fetching best moves:", error);
+    }
+  };
+
   const resetBoard = () => {
     chess.reset();
     setSelectedSquare(null);
@@ -63,6 +74,10 @@ const ChessGame = (props) => {
         position={boardPosition}
         onPieceDrop={(fromSquare, toSquare) => handleMove(fromSquare, toSquare)}
         onSquareClick={(square) => handleSquareClick(square)}
+        // customArrows={bestMoves.map((move) => ({
+        //   from: move.from,
+        //   to: move.to,
+        // }))}
       />
       {chess.inCheck() && <p>King is under attack!</p>}
       {chess.isCheckmate() && (
