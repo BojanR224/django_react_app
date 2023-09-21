@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
   align-items: center;
   justify-content: center;
@@ -12,13 +12,27 @@ body {
   left: 0;
   top: 0;
 }
-
-#app {
-  width: 100%;
-  height: 100%;
+*/
+.buttonGroup {
+  width: 100vh;
+  height: 100vh;
 }
 
 .chessboard {
-  height: 90vh;
-  width: 90vh;
+  max-width: calc(min(100%, 80vh));
+  max-height: calc(min(100%, 80vh));
+}
+
+.camera {
+  max-width: calc(min(100%, 100vh));
+  max-height: calc(min(100%, 100vh));
+}
+
+.loadingPage {
+  height: 100vh;
+  width: 100vh;
+}
+
+input[type="file"] {
+  display: none;
 }
