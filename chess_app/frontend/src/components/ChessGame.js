@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 
-const ChessGame = ({ fen }) => {
+const ChessGame = ({ fen, arePiecesDraggable, customArrows }) => {
   const [boardPosition, setBoardPosition] = useState("start");
   const [chess, setChess] = useState(
     new Chess(
@@ -72,20 +72,18 @@ const ChessGame = ({ fen }) => {
     <div className="chessboard">
       <Chessboard
         position={boardPosition}
+        arePiecesDraggable={arePiecesDraggable}
         onPieceDrop={(fromSquare, toSquare) => handleMove(fromSquare, toSquare)}
         onSquareClick={(square) => handleSquareClick(square)}
-        // customArrows={bestMoves.map((move) => ({
-        //   from: move.from,
-        //   to: move.to,
-        // }))}
+        customArrows={customArrows}
       />
-      {chess.inCheck() && <p>King is under attack!</p>}
+      {/* {chess.inCheck() && <p>King is under attack!</p>}
       {chess.isCheckmate() && (
         <div>
           <p>Checkmate!</p>
           <button onClick={resetBoard}>New Game</button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };
