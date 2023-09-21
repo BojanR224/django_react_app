@@ -6,4 +6,6 @@ urlpatterns = [
     path('chess', index),
     path('capture', index),
     path('test', index),
+    path('loading', index),
+    path('edit', index),
 ]
