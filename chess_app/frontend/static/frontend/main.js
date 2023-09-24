@@ -11207,7 +11207,7 @@ const ChessGame = props => {
   const [fen, setFen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props === null || props === void 0 ? void 0 : props.fen);
   const [chess, setChess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new chess_js__WEBPACK_IMPORTED_MODULE_2__.Chess(props.fen ? props.fen : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
   const [selectedSquare, setSelectedSquare] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
-  const [bestMoves, setBestMoves] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [bestMoves, setBestMoves] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props === null || props === void 0 ? void 0 : props.bestMoves);
   const {
     onMove
   } = props;
@@ -11253,17 +11253,6 @@ const ChessGame = props => {
       onMove === null || onMove === void 0 ? void 0 : onMove(chess.fen());
     }
   };
-  const fetchBestMoves = async () => {
-    try {
-      // Make an Axios GET request to your Django API endpoint
-      const response = await axios.get("YOUR_API_ENDPOINT_HERE");
-
-      // Assuming your API response contains an array of best moves
-      setBestMoves(response.data.bestMoves);
-    } catch (error) {
-      console.error("Error fetching best moves:", error);
-    }
-  };
   const resetBoard = () => {
     chess.reset();
     setSelectedSquare(null);
@@ -11277,11 +11266,50 @@ const ChessGame = props => {
       onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare)
       // onSquareClick={(square) => handleSquareClick(square)}
       ,
-      customArrows: props.customArrows
+      customArrows: props === null || props === void 0 ? void 0 : props.bestMoves,
+      customArrowColor: "rgb(255,170,0)"
     })
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ChessGame);
+
+/***/ }),
+
+/***/ "./src/components/ProgressBar.js":
+/*!***************************************!*\
+  !*** ./src/components/ProgressBar.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+const ProgressBar = props => {
+  const [progress, setProgress] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props.progress);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    setProgress(props.progress);
+  }, [props.progress]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+    className: "progress_main_bar",
+    role: "progressbar",
+    "aria-valuenow": "35",
+    "aria-valuemin": "0",
+    "aria-valuemax": "100",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+      className: "progress_bar",
+      style: {
+        transform: `translateY(${progress - 100}%)`
+      }
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ProgressBar);
 
 /***/ }),
 
@@ -11565,12 +11593,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ChessPage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
-/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/Button.js");
+/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/Button.js");
 /* harmony import */ var _components_ChessGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ChessGame */ "./src/components/ChessGame.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _components_ProgressBar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/ProgressBar */ "./src/components/ProgressBar.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
 
 
 
@@ -11581,35 +11614,80 @@ __webpack_require__.r(__webpack_exports__);
 function ChessPage() {
   const {
     state
-  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_4__.useLocation)();
   const [fen, setFen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(state.fen);
+  const [bestMoves, setBestMoves] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [winPercentage, setWinPercentage] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
   const handleMove = newFen => {
     setFen(newFen);
   };
+  const getChessStatistics = async fen => {
+    try {
+      const formData = new FormData();
+      formData.append("fen", fen);
+      const config = {
+        headers: {
+          accept: "application/json",
+          "Content-type": "plain/test; multipart/form-data; boundary=${formData._boundary}"
+        }
+      };
+      await axios__WEBPACK_IMPORTED_MODULE_5__["default"].post("/api/get-chess-statistics", formData, config).then(res => {
+        setWinPercentage(res.data["win_percentage"]);
+        setBestMoves(res.data["top_3_moves"].map(move => move.Move).map(move => move.match(/.{1,2}/g)));
+        console.log(res);
+        console.log(fen);
+        console.log(bestMoves);
+        console.log(winPercentage);
+      });
+    } catch (error) {
+      console.error("Error: ", error);
+    }
+  };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     handleMove(fen);
+    getChessStatistics(fen);
   }, [fen]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], {
     container: true,
     align: "center",
     direction: "row",
     alignItems: "stretch",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
-      to: "/edit",
-      state: {
-        fen: fen
-      },
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
-        children: "Back"
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      item: true,
+      xs: 1,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ProgressBar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        progress: winPercentage
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      item: true,
+      xs: 10,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        fen: state === null || state === void 0 ? void 0 : state.fen,
+        onFenUpdate: handleMove,
+        onMove: handleMove,
+        bestMoves: bestMoves
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], {
+      item: true,
+      xs: 1,
+      align: "center",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ProgressBar__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        progress: winPercentage
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_6__["default"], {
       item: true,
       xs: 12,
       align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        fen: state === null || state === void 0 ? void 0 : state.fen,
-        onFenUpdate: handleMove,
-        onMove: handleMove
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+        to: "/edit",
+        state: {
+          fen: fen
+        },
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_8__["default"], {
+          children: "Back"
+        })
       })
     })]
   });
