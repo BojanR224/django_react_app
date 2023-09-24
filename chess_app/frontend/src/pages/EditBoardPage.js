@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import ChessGame from "../components/ChessGame";
@@ -7,6 +7,15 @@ import { Typography } from "@material-ui/core";
 
 export default function EditBoardPage() {
   const { state } = useLocation();
+  const [fen, setFen] = useState(state.fen);
+
+  const handleMove = (newFen) => {
+    setFen(newFen);
+  };
+
+  useEffect(() => {
+    handleMove(fen);
+  }, []);
 
   return (
     <div>
@@ -44,7 +53,12 @@ export default function EditBoardPage() {
           </Grid>
         </Grid>
         <Grid item xs={6} align="center">
-          <ChessGame fen={state?.fen} />
+          <ChessGame
+            fen={state?.fen}
+            onFenUpdate={handleMove}
+            onMove={handleMove}
+            arePiecesDraggable={false}
+          />
           {/* Ovoj ChessGame kje bide editable and piecesareDraggable kje bide false, on clickSquare kje menja figurite */}
         </Grid>
         <Grid
@@ -66,7 +80,7 @@ export default function EditBoardPage() {
           </Grid>
         </Grid>
         <Grid item xs={12} align="center">
-          <Link to="/chess">
+          <Link to="/chess" state={{ fen: fen }}>
             <Button>Confirm</Button>
           </Link>
         </Grid>

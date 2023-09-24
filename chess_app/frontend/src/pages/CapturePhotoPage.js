@@ -32,6 +32,7 @@ function CameraComponent() {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       const photoURL = canvas.toDataURL();
+      console.log("Capture photo page: " + photoURL);
       navigate("/loading", { state: { image: photoURL } });
     }
   };

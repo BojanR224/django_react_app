@@ -11200,15 +11200,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ChessGame = ({
-  fen,
-  arePiecesDraggable,
-  customArrows
-}) => {
+//{ fen, arePiecesDraggable, customArrows }
+
+const ChessGame = props => {
   const [boardPosition, setBoardPosition] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("start");
-  const [chess, setChess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new chess_js__WEBPACK_IMPORTED_MODULE_2__.Chess(fen ? fen : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+  const [fen, setFen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(props === null || props === void 0 ? void 0 : props.fen);
+  const [chess, setChess] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(new chess_js__WEBPACK_IMPORTED_MODULE_2__.Chess(props.fen ? props.fen : "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
   const [selectedSquare, setSelectedSquare] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
   const [bestMoves, setBestMoves] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const {
+    onMove
+  } = props;
   const handleSquareClick = square => {
     const piece = chess.get(square);
     if (piece && piece.color === chess.turn()) {
@@ -11216,9 +11218,16 @@ const ChessGame = ({
       highlightValidMoves(square);
     }
   };
+  const handleFenUpdate = newFen => {
+    setFen(newFen);
+    if (typeof props.handleFenUpdate === "function") {
+      props.handleFenUpdate(newFen);
+    }
+  };
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     setBoardPosition(chess.fen());
-  }, []);
+    handleFenUpdate(fen);
+  }, [fen]);
   const highlightValidMoves = square => {
     const validMoves = chess.moves({
       square,
@@ -11241,6 +11250,7 @@ const ChessGame = ({
     if (move) {
       setSelectedSquare(null);
       setBoardPosition(chess.fen());
+      onMove === null || onMove === void 0 ? void 0 : onMove(chess.fen());
     }
   };
   const fetchBestMoves = async () => {
@@ -11263,10 +11273,11 @@ const ChessGame = ({
     className: "chessboard",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_chessboard__WEBPACK_IMPORTED_MODULE_1__.Chessboard, {
       position: boardPosition,
-      arePiecesDraggable: arePiecesDraggable,
-      onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare),
-      onSquareClick: square => handleSquareClick(square),
-      customArrows: customArrows
+      arePiecesDraggable: props.arePiecesDraggable,
+      onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare)
+      // onSquareClick={(square) => handleSquareClick(square)}
+      ,
+      customArrows: props.customArrows
     })
   });
 };
@@ -11495,6 +11506,7 @@ function CameraComponent() {
       const context = canvas.getContext("2d");
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       const photoURL = canvas.toDataURL();
+      console.log("Capture photo page: " + photoURL);
       navigate("/loading", {
         state: {
           image: photoURL
@@ -11553,26 +11565,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ ChessPage)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Grid */ "./node_modules/@material-ui/core/esm/Grid/Grid.js");
+/* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/esm/Button/Button.js");
 /* harmony import */ var _components_ChessGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/ChessGame */ "./src/components/ChessGame.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
 
 
 
 
+
+
 function ChessPage() {
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
+  const {
+    state
+  } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+  const [fen, setFen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(state.fen);
+  const handleMove = newFen => {
+    setFen(newFen);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    handleMove(fen);
+  }, [fen]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
     container: true,
     align: "center",
     direction: "row",
     alignItems: "stretch",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Link, {
+      to: "/edit",
+      state: {
+        fen: fen
+      },
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        children: "Back"
+      })
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
       item: true,
       xs: 12,
       align: "center",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {})
-    })
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        fen: state === null || state === void 0 ? void 0 : state.fen,
+        onFenUpdate: handleMove,
+        onMove: handleMove
+      })
+    })]
   });
 }
 
@@ -11609,6 +11648,13 @@ function EditBoardPage() {
   const {
     state
   } = (0,react_router_dom__WEBPACK_IMPORTED_MODULE_3__.useLocation)();
+  const [fen, setFen] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(state.fen);
+  const handleMove = newFen => {
+    setFen(newFen);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    handleMove(fen);
+  }, []);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
       container: true,
@@ -11661,7 +11707,10 @@ function EditBoardPage() {
         xs: 6,
         align: "center",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          fen: state === null || state === void 0 ? void 0 : state.fen
+          fen: state === null || state === void 0 ? void 0 : state.fen,
+          onFenUpdate: handleMove,
+          onMove: handleMove,
+          arePiecesDraggable: false
         })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(_material_ui_core_Grid__WEBPACK_IMPORTED_MODULE_4__["default"], {
         container: true,
@@ -11698,6 +11747,9 @@ function EditBoardPage() {
         align: "center",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
           to: "/chess",
+          state: {
+            fen: fen
+          },
           children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_6__["default"], {
             children: "Confirm"
           })
@@ -11774,6 +11826,9 @@ function HomePage() {
             }), "Choose Image"]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Link, {
             to: "/edit",
+            state: {
+              fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+            },
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_5__["default"], {
               children: "Editable Board"
             })

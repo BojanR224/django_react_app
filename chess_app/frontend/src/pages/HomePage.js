@@ -44,7 +44,12 @@ export default function HomePage() {
                 Choose Image
               </label>
 
-              <Link to="/edit">
+              <Link
+                to="/edit"
+                state={{
+                  fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+                }}
+              >
                 <Button>Editable Board</Button>
               </Link>
             </Grid>

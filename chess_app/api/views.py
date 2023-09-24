@@ -27,7 +27,7 @@ class PostImageView(APIView):
 
             # fen = ImageToFen().get_fen()
 
-            return Response({'fen': 'Rnbqkb1r/ppp1ppp1/5n1p/1B1p4/4P3/1P3N2/P1PP1PPP/RNBQK2R b KQkq - 1 4'}, status=status.HTTP_201_CREATED)
+            return Response({'fen': 'rnbqkb1r/ppp1ppp1/5n1p/1B1p4/4P3/1P3N2/P1PP1PPP/RNBQK2R b KQkq - 1 4'}, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
