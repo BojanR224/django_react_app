@@ -14,7 +14,7 @@ const ChessGame = (props) => {
     )
   );
   const [selectedSquare, setSelectedSquare] = useState(null);
-  const [bestMoves, setBestMoves] = useState([]);
+  const [bestMoves, setBestMoves] = useState(props?.bestMoves);
   const { onMove } = props;
 
   const handleSquareClick = (square) => {
@@ -64,18 +64,6 @@ const ChessGame = (props) => {
     }
   };
 
-  const fetchBestMoves = async () => {
-    try {
-      // Make an Axios GET request to your Django API endpoint
-      const response = await axios.get("YOUR_API_ENDPOINT_HERE");
-
-      // Assuming your API response contains an array of best moves
-      setBestMoves(response.data.bestMoves);
-    } catch (error) {
-      console.error("Error fetching best moves:", error);
-    }
-  };
-
   const resetBoard = () => {
     chess.reset();
     setSelectedSquare(null);
@@ -89,7 +77,8 @@ const ChessGame = (props) => {
         arePiecesDraggable={props.arePiecesDraggable}
         onPieceDrop={(fromSquare, toSquare) => handleMove(fromSquare, toSquare)}
         // onSquareClick={(square) => handleSquareClick(square)}
-        customArrows={props.customArrows}
+        customArrows={props?.bestMoves}
+        customArrowColor="rgb(255,170,0)"
       />
     </div>
   );
