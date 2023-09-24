@@ -5,6 +5,8 @@ from .models import Chess, Fen
 from rest_framework.views import APIView
 from rest_framework.response import Response
 # from api.chess_recognition import ImageToFen
+import math
+from django.conf import settings
 
 # Create your views here.
 class ChessView(generics.CreateAPIView):
@@ -37,11 +39,25 @@ class GetBestPositions(APIView):
     serializer_class = FenSerializer
 
     def post(self, request, *args, **kwargs):
-        serializer = FenSerializer(data=request.data, many=True)
+        serializer = FenSerializer(data=request.data)
         
         if serializer.is_valid():
             serializer.save()
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            fen = serializer.validated_data['fen']
+            
+            stockfish = settings.STOCKFISH_ENGINE
+
+            if stockfish.is_fen_valid(fen):
+                
+                stockfish.set_fen_position(fen)
+                top_3_moves = stockfish.get_top_moves(3)
+                centipawns = stockfish.get_evaluation()['value']
+                win_percentage = round(50 + 50 * (2 / (1 + math.exp(-0.00368208 * centipawns)) - 1),2)
+                response = {'win_percentage': win_percentage, 'top_3_moves': top_3_moves}
+
+                return Response(response, status=status.HTTP_200_OK)
+
+            return Response("Invalid FEN string", status=status.HTTP_400_BAD_REQUEST)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -4,5 +4,5 @@ from .views import PostImageView, ChessView, GetBestPositions
 urlpatterns = [
     path('', ChessView.as_view()),
     path('send-image', PostImageView.as_view()),
-    path('get-best-positions', GetBestPositions.as_view())
+    path('get-chess-statistics', GetBestPositions.as_view())
 ]
