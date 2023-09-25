@@ -62,6 +62,7 @@ export default function ChessPage() {
       <Grid item xs={10} align="center">
         <ChessGame
           fen={state?.fen}
+          arePiecesDraggable={true}
           onFenUpdate={handleMove}
           onMove={handleMove}
           bestMoves={bestMoves}

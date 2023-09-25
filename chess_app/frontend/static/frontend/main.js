@@ -11211,13 +11211,16 @@ const ChessGame = props => {
   const {
     onMove
   } = props;
-  const handleSquareClick = square => {
-    const piece = chess.get(square);
-    if (piece && piece.color === chess.turn()) {
-      setSelectedSquare(square);
-      highlightValidMoves(square);
-    }
-  };
+
+  // const handleSquareClick = (square) => {
+  //   const piece = chess.get(square);
+
+  //   if (piece && piece.color === chess.turn()) {
+  //     setSelectedSquare(square);
+  //     highlightValidMoves(square);
+  //   }
+  // };
+
   const handleFenUpdate = newFen => {
     setFen(newFen);
     if (typeof props.handleFenUpdate === "function") {
@@ -11228,17 +11231,48 @@ const ChessGame = props => {
     setBoardPosition(chess.fen());
     handleFenUpdate(fen);
   }, [fen]);
-  const highlightValidMoves = square => {
-    const validMoves = chess.moves({
-      square,
-      verbose: true
-    });
-    const highlightedSquares = validMoves.map(move => move.to);
-    highlightedSquares.push(square);
-    setBoardPosition(prevPosition => ({
-      ...prevPosition,
-      lastSquareToHighlight: highlightedSquares
-    }));
+
+  // const highlightValidMoves = (square) => {
+  //   const validMoves = chess.moves({ square, verbose: true });
+
+  //   const highlightedSquares = validMoves.map((move) => move.to);
+  //   highlightedSquares.push(square);
+
+  //   setBoardPosition((prevPosition) => ({
+  //     ...prevPosition,
+  //     lastSquareToHighlight: highlightedSquares,
+  //   }));
+  // };
+
+  const handleSquareClick = square => {
+    var piece = chess.get(square);
+    if (piece.type == "k") {
+      return;
+    }
+    if (!piece) chess.put({
+      type: "p",
+      color: "w"
+    }, square);else {
+      if (piece.type == "q") {
+        if (piece.color == "w") piece.color = "b";else {
+          chess.remove(square);
+          piece = false;
+        }
+      }
+      if (piece) {
+        const pieceTypes = ["p", "n", "b", "r", "q"];
+        const currentPieceIndex = pieceTypes.indexOf(piece.type);
+        const nextPieceIndex = (currentPieceIndex + 1) % pieceTypes.length;
+        const nextPieceType = pieceTypes[nextPieceIndex];
+        chess.put({
+          type: nextPieceType,
+          color: piece.color
+        }, square);
+      }
+    }
+    setBoardPosition(chess.fen());
+    onMove === null || onMove === void 0 ? void 0 : onMove(chess.fen());
+    console.log(chess.fen());
   };
   const handleMove = (fromSquare, toSquare) => {
     const move = chess.move({
@@ -11263,9 +11297,8 @@ const ChessGame = props => {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(react_chessboard__WEBPACK_IMPORTED_MODULE_1__.Chessboard, {
       position: boardPosition,
       arePiecesDraggable: props.arePiecesDraggable,
-      onPieceDrop: (fromSquare, toSquare) => handleMove(fromSquare, toSquare)
-      // onSquareClick={(square) => handleSquareClick(square)}
-      ,
+      onPieceDrop: (fromSquare, toSquare) => props !== null && props !== void 0 && props.arePiecesDraggable ? handleMove(fromSquare, toSquare) : {},
+      onSquareClick: square => props !== null && props !== void 0 && props.arePiecesDraggable ? {} : handleSquareClick(square),
       customArrows: props === null || props === void 0 ? void 0 : props.bestMoves,
       customArrowColor: "rgb(255,170,0)"
     })
@@ -11665,6 +11698,7 @@ function ChessPage() {
       align: "center",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)(_components_ChessGame__WEBPACK_IMPORTED_MODULE_1__["default"], {
         fen: state === null || state === void 0 ? void 0 : state.fen,
+        arePiecesDraggable: true,
         onFenUpdate: handleMove,
         onMove: handleMove,
         bestMoves: bestMoves

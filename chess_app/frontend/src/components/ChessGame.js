@@ -17,14 +17,14 @@ const ChessGame = (props) => {
   const [bestMoves, setBestMoves] = useState(props?.bestMoves);
   const { onMove } = props;
 
-  const handleSquareClick = (square) => {
-    const piece = chess.get(square);
+  // const handleSquareClick = (square) => {
+  //   const piece = chess.get(square);
 
-    if (piece && piece.color === chess.turn()) {
-      setSelectedSquare(square);
-      highlightValidMoves(square);
-    }
-  };
+  //   if (piece && piece.color === chess.turn()) {
+  //     setSelectedSquare(square);
+  //     highlightValidMoves(square);
+  //   }
+  // };
 
   const handleFenUpdate = (newFen) => {
     setFen(newFen);
@@ -38,16 +38,47 @@ const ChessGame = (props) => {
     handleFenUpdate(fen);
   }, [fen]);
 
-  const highlightValidMoves = (square) => {
-    const validMoves = chess.moves({ square, verbose: true });
+  // const highlightValidMoves = (square) => {
+  //   const validMoves = chess.moves({ square, verbose: true });
 
-    const highlightedSquares = validMoves.map((move) => move.to);
-    highlightedSquares.push(square);
+  //   const highlightedSquares = validMoves.map((move) => move.to);
+  //   highlightedSquares.push(square);
 
-    setBoardPosition((prevPosition) => ({
-      ...prevPosition,
-      lastSquareToHighlight: highlightedSquares,
-    }));
+  //   setBoardPosition((prevPosition) => ({
+  //     ...prevPosition,
+  //     lastSquareToHighlight: highlightedSquares,
+  //   }));
+  // };
+
+  const handleSquareClick = (square) => {
+    var piece = chess.get(square);
+
+    if (piece.type == "k") {
+      return;
+    }
+
+    if (!piece) chess.put({ type: "p", color: "w" }, square);
+    else {
+      if (piece.type == "q") {
+        if (piece.color == "w") piece.color = "b";
+        else {
+          chess.remove(square);
+          piece = false;
+        }
+      }
+      if (piece) {
+        const pieceTypes = ["p", "n", "b", "r", "q"];
+        const currentPieceIndex = pieceTypes.indexOf(piece.type);
+        const nextPieceIndex = (currentPieceIndex + 1) % pieceTypes.length;
+        const nextPieceType = pieceTypes[nextPieceIndex];
+
+        chess.put({ type: nextPieceType, color: piece.color }, square);
+      }
+    }
+
+    setBoardPosition(chess.fen());
+    onMove?.(chess.fen());
+    console.log(chess.fen());
   };
 
   const handleMove = (fromSquare, toSquare) => {
@@ -75,8 +106,12 @@ const ChessGame = (props) => {
       <Chessboard
         position={boardPosition}
         arePiecesDraggable={props.arePiecesDraggable}
-        onPieceDrop={(fromSquare, toSquare) => handleMove(fromSquare, toSquare)}
-        // onSquareClick={(square) => handleSquareClick(square)}
+        onPieceDrop={(fromSquare, toSquare) =>
+          props?.arePiecesDraggable ? handleMove(fromSquare, toSquare) : {}
+        }
+        onSquareClick={(square) =>
+          props?.arePiecesDraggable ? {} : handleSquareClick(square)
+        }
         customArrows={props?.bestMoves}
         customArrowColor="rgb(255,170,0)"
       />
