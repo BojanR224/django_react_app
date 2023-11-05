@@ -130,3 +130,5 @@ MEDIA_ROOT = BASE_DIR / "frontend/static/images"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STOCKFISH_ENGINE = Stockfish(BASE_DIR / "stockfish/stockfish/stockfish-windows-x86-64-avx2.exe")
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
