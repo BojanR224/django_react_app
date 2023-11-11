@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 from stock_fish import Stockfish
+from tensorflow import keras
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,5 +131,7 @@ MEDIA_ROOT = BASE_DIR / "frontend/static/images"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 STOCKFISH_ENGINE = Stockfish(BASE_DIR / "stockfish/stockfish/stockfish-windows-x86-64-avx2.exe")
+
+DETECTION_MODEL = keras.models.load_model(BASE_DIR / "chess_app/models/detection")
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880
