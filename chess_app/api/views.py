@@ -7,6 +7,7 @@ from rest_framework.response import Response
 # from api.chess_recognition import ImageToFen
 import math
 from django.conf import settings
+from .cornerDetection import CornerDetection
 
 # Create your views here.
 class ChessView(generics.CreateAPIView):

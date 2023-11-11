@@ -5,6 +5,8 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
+import imutils
+from django.conf import settings
 
 class CornerDetection():
 
@@ -17,11 +19,13 @@ class CornerDetection():
         # Speed up inference
         tf.config.optimizer.set_jit(True)
         # Prevent CuDNN Error
-        physical_devices = tf.config.experimental.list_physical_devices('GPU')
-        if len(physical_devices) > 0:
-            tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
         
-        self.detection_model = keras.models.load_model("models/detection")
+        # physical_devices = tf.config.experimental.list_physical_devices('GPU')
+        # if len(physical_devices) > 0:
+        #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
+
+        self.detection_model = settings.DETECTION_MODEL
 
     def overlappingPoints(self, predictions):
         """Check if points are too close to another
@@ -38,6 +42,26 @@ class CornerDetection():
         distances[distances == 0] = np.inf
         indxs = np.argwhere(distances < 30)
         return not len(indxs) == 0
+    
+    def rotate_and_predict(self, angle):
+        """Rotates input img and runs prediction again
+
+        Args:
+            angle ([type]): angle in degrees
+
+        Returns:
+            [type]: returns prediction with corrected rotation
+        """
+        rot_imgs = imutils.rotate(self.img_rgb, angle=-angle)
+        predictions = self.detection_model.predict(
+            np.expand_dims(rot_imgs, axis=0))
+        if self.overlappingPoints(predictions):
+            return None
+        # Correct rotation of predicted points
+        M = cv2.getRotationMatrix2D((256, 192), angle, 1)
+        predictions[0, :, 2] = 1
+        predictions[0, :, 0:2] = (M@predictions[0].T).T
+        return predictions
 
     def refine_predictions(self, predictions):
         """Sort predicted corners in a clockwise fashion. Top left corner is the first element
