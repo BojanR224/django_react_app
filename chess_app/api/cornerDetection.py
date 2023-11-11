@@ -157,9 +157,9 @@ class CornerDetection():
             # corners = np.array([[int(np.round(corner[0] * height / 512)), int(np.round(corner[1] * width / 384))] for corner in corners])
 
             if len(corners) == 4:
-                plt.imshow(img)
-                plt.scatter(corners[:, 0], corners[:, 1], marker=".", color="red", s=20)
-                plt.show()
+                # plt.imshow(img)
+                # plt.scatter(corners[:, 0], corners[:, 1], marker=".", color="red", s=20)
+                # plt.show()
                 # detect.predictBoard(img, corners)
 
                 # square_side_max = max(width, height)
@@ -181,9 +181,9 @@ class CornerDetection():
                 new_width, new_height = int(width / 8), int(height / 8)
 
                 chessboard = self.map_to_chessboard(x_list, y_list, new_width, new_height)
-                print(chessboard)
-                plt.imshow(new_img)
-                plt.show()
+                # print(chessboard)
+                # plt.imshow(new_img)
+                # plt.show()
 
                 # single_square_corners = np.array([(0, 0), (single_square_max, 0), (single_square_max, single_square_max), (0, single_square_max)])
                 imgs = []
