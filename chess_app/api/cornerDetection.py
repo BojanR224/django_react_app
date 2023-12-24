@@ -10,7 +10,7 @@ from django.conf import settings
 
 class CornerDetection():
 
-    def __init__(self):
+    def __init__(self, image = None):
         """
 
         Args:
@@ -26,6 +26,8 @@ class CornerDetection():
         #     tf.config.experimental.set_memory_growth(physical_devices[0], True)
 
         self.detection_model = settings.DETECTION_MODEL
+        self.piece_detection = settings.PIECE_DETECTION_MODEL
+        self.image = image
 
     def overlappingPoints(self, predictions):
         """Check if points are too close to another
@@ -138,11 +140,14 @@ class CornerDetection():
                 chessboard.append((col[0], row[1], col[0] + width, row[1] + height, square))
 
         return chessboard
+
+    def chessboard_to_fen(self, chessboard):
+        
     
     def main(self):
         detect = CornerDetection()
 
-        filenames = glob.glob("*/images/*")
+        filenames = glob.glob("images/*")
         filenames = sorted(filenames)
 
         for file in filenames:
@@ -205,7 +210,7 @@ class CornerDetection():
                     cropped_image = cv2.warpPerspective(new_img, M, (new_height, new_width))
 
                     # cropped_image = cv2.resize(cropped_image, (100, 100))
-                    
+
                     imgs.append(cropped_image)
 
                     # prediction = model.predict(cropped_image, confidence=40, overlap=30).json()
@@ -238,6 +243,11 @@ class CornerDetection():
                 print(corners)
                 plt.imshow(img)
                 plt.show()
+
+
+def main(image):
+    detect = CornerDetection()
+    detect.main()
 
 if __name__ == "__main__":
     detect = CornerDetection()

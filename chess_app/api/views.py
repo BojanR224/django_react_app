@@ -27,6 +27,10 @@ class PostImageView(APIView):
         if serializer.is_valid():
             serializer.validated_data['image'].name = 'chess_image.png' 
             serializer.save()
+            
+            image = serializer.data['image']
+
+            fen_string = CornerDetection.main(image)
 
             # fen = ImageToFen().get_fen()
 
