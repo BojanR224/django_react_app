@@ -10,7 +10,7 @@ from django.conf import settings
 
 class CornerDetection():
 
-    def __init__(self, image = None):
+    def __init__(self, main_image = None):
         """
 
         Args:
@@ -27,7 +27,7 @@ class CornerDetection():
 
         self.detection_model = settings.DETECTION_MODEL
         self.piece_detection = settings.PIECE_DETECTION_MODEL
-        self.image = image
+        self.main_image = main_image
 
     def overlappingPoints(self, predictions):
         """Check if points are too close to another
@@ -142,113 +142,114 @@ class CornerDetection():
         return chessboard
 
     def chessboard_to_fen(self, chessboard):
+        fen_string = ""
+        file = ""
+        empty_squares = 0
+        for i in range(0, 64):
+            if chessboard[i][1] == "E":
+                empty_squares += 1
+            else:
+                if empty_squares != 0:
+                    file += str(empty_squares)
+                empty_squares = 0
+                file += chessboard[i][1]
+
+            if i+1%8==0:
+                if i == 7:
+                    fen_string = file
+                else:
+                    fen_string = file + "/" + fen_string
+                file = ""
+                empty_squares = 0
+        return fen_string + " w KQkq - 0 1"
+
+
         
-    
+    def predict_square(self, image_square):
+        pieces  = ["b", "k", "n", "p", "q", "r", "E", "B", "K", "N", "P", "Q", "R"]
+        image = cv2.cvtColor(image_square, cv2.COLOR_RGB2BGR)
+        image = cv2.resize(image, (224,224), interpolation = cv2.INTER_LANCZOS4)
+
+        image = [[[[3]]]+image]
+
+        image = tf.image.convert_image_dtype(image, dtype=tf.float32)
+        predictions = self.piece_detection.predict(image)
+        max_value = max(predictions[0])
+        max_index = np.where(predictions[0] == max_value)
+        return pieces[max_index]
+
     def main(self):
+
         detect = CornerDetection()
+        filenames = glob.glob("../frontend/static/images/chess_images/*")
 
-        filenames = glob.glob("images/*")
-        filenames = sorted(filenames)
+        img = cv2.imread(filenames[0])
+        width, height, _ = img.shape
+        corners = detect.predict_board_corners(img)
+        
+        corners  = np.array([arr.tolist() for arr in corners])
 
-        for file in filenames:
-            img = cv2.imread(file)
-            width, height, _ = img.shape
-            corners = detect.predict_board_corners(img)
-            
-            corners  = np.array([arr.tolist() for arr in corners])
+        corners = np.array([[int(np.round(corner[0] * height / 512)), int(np.round(corner[1] * width / 384))] for corner in corners])
 
-            corners = np.array([[int(np.round(corner[0] * height / 512)), int(np.round(corner[1] * width / 384))] for corner in corners])
 
-            # corners = np.array([[int(np.round(corner[0] * height / 512)), int(np.round(corner[1] * width / 384))] for corner in corners])
+        if len(corners) == 4:
+            # plt.imshow(img)
+            # plt.scatter(corners[:, 0], corners[:, 1], marker=".", color="red", s=20)
+            # plt.show()
+            # detect.predictBoard(img, corners)
 
-            if len(corners) == 4:
-                # plt.imshow(img)
-                # plt.scatter(corners[:, 0], corners[:, 1], marker=".", color="red", s=20)
-                # plt.show()
-                # detect.predictBoard(img, corners)
+            # square_side_max = max(width, height)
 
-                # square_side_max = max(width, height)
+            new_size = (height, width)
 
-                new_size = (height, width)
+            # widht i height smeni mesta?
+            new_corners = np.array([(0, 0), (height, 0), (height, width), (0, width)])
 
-                # widht i height smeni mesta?
-                new_corners = np.array([(0, 0), (height, 0), (height, width), (0, width)])
+            corners = corners.astype(np.float32)
 
-                corners = corners.astype(np.float32)
+            new_corners = new_corners.astype(np.float32)
 
+            M = cv2.getPerspectiveTransform(corners, new_corners)
+
+            new_img = cv2.warpPerspective(img, M, new_size)
+
+            x_list, y_list = self.create_split_points(height, width)
+            new_width, new_height = int(width / 8), int(height / 8)
+
+            chessboard = self.map_to_chessboard(x_list, y_list, new_width, new_height)
+            print(chessboard)
+            # plt.imshow(new_img)
+            # plt.show()
+
+            # single_square_corners = np.array([(0, 0), (single_square_max, 0), (single_square_max, single_square_max), (0, single_square_max)])
+            for i, square in enumerate(chessboard):
+                x = square[0]
+                y = square[1]
+                x_h = square[2]
+                y_w = square[3]
+
+                new_single_square_corners = np.array([(0, 0), (new_width, 0), (new_width, new_height), (0, new_height)])
+                new_single_square_corners = new_single_square_corners.astype(np.float32)
+
+                new_corners = np.array([(x, y), (x_h, y), (x_h, y_w), (x, y_w)])
+                # new_corners = np.array([(x, y), (y_w, y), (y_w, x_h), (x, x_h)])
                 new_corners = new_corners.astype(np.float32)
 
-                M = cv2.getPerspectiveTransform(corners, new_corners)
+                M = cv2.getPerspectiveTransform(new_corners, new_single_square_corners)
 
-                new_img = cv2.warpPerspective(img, M, new_size)
+                cropped_image = cv2.warpPerspective(new_img, M, (new_height, new_width))
 
-                x_list, y_list = self.create_split_points(height, width)
-                new_width, new_height = int(width / 8), int(height / 8)
+                predicted_square = self.predict_square(cropped_image)
 
-                chessboard = self.map_to_chessboard(x_list, y_list, new_width, new_height)
-                # print(chessboard)
-                # plt.imshow(new_img)
-                # plt.show()
+                chessboard[i] = (chessboard[i][5], predicted_square)
 
-                # single_square_corners = np.array([(0, 0), (single_square_max, 0), (single_square_max, single_square_max), (0, single_square_max)])
-                imgs = []
-                for i, square in enumerate(chessboard):
-                    x = square[0]
-                    y = square[1]
-                    x_h = square[2]
-                    y_w = square[3]
+            print(chessboard)
+            return self.chessboard_to_fen(chessboard)
 
-                    new_single_square_corners = np.array([(0, 0), (new_width, 0), (new_width, new_height), (0, new_height)])
-                    new_single_square_corners = new_single_square_corners.astype(np.float32)
-
-                    new_corners = np.array([(x, y), (x_h, y), (x_h, y_w), (x, y_w)])
-                    # new_corners = np.array([(x, y), (y_w, y), (y_w, x_h), (x, x_h)])
-                    new_corners = new_corners.astype(np.float32)
-
-                    M = cv2.getPerspectiveTransform(new_corners, new_single_square_corners)
-
-                    cropped_image = cv2.warpPerspective(new_img, M, (new_height, new_width))
-
-                    # cropped_image = cv2.resize(cropped_image, (100, 100))
-
-                    imgs.append(cropped_image)
-
-                    # prediction = model.predict(cropped_image, confidence=40, overlap=30).json()
-                    # Treniraj uste eden model na roboflow so pogolemo podatocno mnozestvo i po spesificno klasificiranje ( dosta so tie konji)
-
-                    # chessboard[i] = (chessboard[i][0], chessboard[i][1], chessboard[i][2], chessboard[i][3],chessboard[i][4], prediction['predictions'][0]['class'] if len(prediction['predictions']) > 0 else 'empty')
+        else:
+            return None
 
 
-                print(chessboard)
-                plt.imshow(new_img)
-                plt.show()
-                for img in imgs:
-                    plt.imshow(img)
-                    plt.show()
-
-                # fen_string = chessboard.predictions_to_fen(predictions)
-                # print(fen_string)
-
-                # chessboard_points = [(t[0], t[1]) for t in chessboard]
-
-                # for point in chessboard_points:
-                #     # cv2.putText(new_img, str(point[2]), (int(point[0]), int(point[1])), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-                #     cv2.rectangle(new_img, point, (point[0] + int(width/8), point[1] + int(height/8)), (0, 0, 255), 1)
-
-                # cv2.namedWindow("Labeled Image", cv2.WINDOW_NORMAL)
-                # cv2.imshow("Labeled Image", new_img)
-                # cv2.waitKey(0)
-
-            else:
-                print(corners)
-                plt.imshow(img)
-                plt.show()
-
-
-def main(image):
-    detect = CornerDetection()
-    detect.main()
-
-if __name__ == "__main__":
+def main():
     detect = CornerDetection()
     detect.main()

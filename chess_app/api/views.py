@@ -23,17 +23,23 @@ class PostImageView(APIView):
 
     def post(self, request, *args, **kwargs):
         serializer = ChessSerializer(data=request.data)
+        stockfish = settings.STOCKFISH_ENGINE
 
         if serializer.is_valid():
             serializer.validated_data['image'].name = 'chess_image.png' 
             serializer.save()
             
-            image = serializer.data['image']
-
-            fen_string = CornerDetection.main(image)
+            # image = serializer.data['image']
+            # print(type(image))
+            detection = CornerDetection()
+            fen_string = detection.main()
 
             # fen = ImageToFen().get_fen()
+            print(fen_string)
+            if stockfish.is_fen_valid(fen_string):
 
+                return Response({'fen': fen_string}, status=status.HTTP_201_CREATED)
+            
             return Response({'fen': 'rnbqkb1r/ppp1ppp1/5n1p/1B1p4/4P3/1P3N2/P1PP1PPP/RNBQK2R b KQkq - 1 4'}, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
