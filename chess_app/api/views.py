@@ -26,13 +26,14 @@ class PostImageView(APIView):
         stockfish = settings.STOCKFISH_ENGINE
 
         if serializer.is_valid():
-            serializer.validated_data['image'].name = 'chess_image.png' 
-            serializer.save()
+            # serializer.validated_data['image'].name = 'chess_image.png' 
+            chess = serializer.save()
+            image = chess.image
             
             # image = serializer.data['image']
             # print(type(image))
             detection = CornerDetection()
-            fen_string = detection.main()
+            fen_string = detection.main(image)
 
             # fen = ImageToFen().get_fen()
             print(fen_string)

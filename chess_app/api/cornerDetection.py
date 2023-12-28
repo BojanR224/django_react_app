@@ -1,7 +1,7 @@
 import cv2 
 import tensorflow as tf
 from tensorflow import keras
-import glob
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.spatial.distance import cdist
@@ -154,7 +154,7 @@ class CornerDetection():
                 empty_squares = 0
                 file += chessboard[i][1]
 
-            if i+1%8==0:
+            if (i+1)%8==0:
                 if i == 7:
                     fen_string = file
                 else:
@@ -174,16 +174,20 @@ class CornerDetection():
 
         image = tf.image.convert_image_dtype(image, dtype=tf.float32)
         predictions = self.piece_detection.predict(image)
-        max_value = max(predictions[0])
-        max_index = np.where(predictions[0] == max_value)
+        # max_value = max(predictions[0])
+        # max_index = np.where(predictions[0] == max_value)
+        max_index = np.argmax(predictions[0])
         return pieces[max_index]
 
-    def main(self):
-
+    def main(self, image):
         detect = CornerDetection()
-        filenames = glob.glob("../frontend/static/images/chess_images/*")
 
-        img = cv2.imread(filenames[0])
+        image_bytes = image.read()
+        img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+
+        
         width, height, _ = img.shape
         corners = detect.predict_board_corners(img)
         
@@ -222,6 +226,7 @@ class CornerDetection():
             # plt.show()
 
             # single_square_corners = np.array([(0, 0), (single_square_max, 0), (single_square_max, single_square_max), (0, single_square_max)])
+            predicted_chessboard = []
             for i, square in enumerate(chessboard):
                 x = square[0]
                 y = square[1]
@@ -241,15 +246,16 @@ class CornerDetection():
 
                 predicted_square = self.predict_square(cropped_image)
 
-                chessboard[i] = (chessboard[i][5], predicted_square)
+                # chessboard[i] = (chessboard[i][5], predicted_square)
+                predicted_chessboard.append((chessboard[i][4], predicted_square))
 
-            print(chessboard)
-            return self.chessboard_to_fen(chessboard)
+            print(predicted_chessboard)
+            return self.chessboard_to_fen(predicted_chessboard)
 
         else:
             return None
 
 
-def main():
+def main(image):
     detect = CornerDetection()
-    detect.main()
+    detect.main(image)
