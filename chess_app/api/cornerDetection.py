@@ -146,8 +146,10 @@ class CornerDetection():
         file = ""
         empty_squares = 0
         for i in range(0, 64):
+
             if chessboard[i][1] == "E":
                 empty_squares += 1
+
             else:
                 if empty_squares != 0:
                     file += str(empty_squares)
@@ -155,6 +157,9 @@ class CornerDetection():
                 file += chessboard[i][1]
 
             if (i+1)%8==0:
+                if empty_squares != 0:
+                    file += str(empty_squares)
+
                 if i == 7:
                     fen_string = file
                 else:
@@ -168,7 +173,7 @@ class CornerDetection():
     def predict_square(self, image_square):
         pieces  = ["b", "k", "n", "p", "q", "r", "E", "B", "K", "N", "P", "Q", "R"]
         image = cv2.cvtColor(image_square, cv2.COLOR_RGB2BGR)
-        image = cv2.resize(image, (224,224), interpolation = cv2.INTER_LANCZOS4)
+        image = cv2.resize(image_square, (224,224), interpolation = cv2.INTER_LANCZOS4)
 
         image = [[[[3]]]+image]
 
@@ -177,6 +182,7 @@ class CornerDetection():
         # max_value = max(predictions[0])
         # max_index = np.where(predictions[0] == max_value)
         max_index = np.argmax(predictions[0])
+
         return pieces[max_index]
 
     def main(self, image):
@@ -184,13 +190,13 @@ class CornerDetection():
 
         image_bytes = image.read()
         img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), -1)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
 
         
         width, height, _ = img.shape
         corners = detect.predict_board_corners(img)
-        
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
         corners  = np.array([arr.tolist() for arr in corners])
 
         corners = np.array([[int(np.round(corner[0] * height / 512)), int(np.round(corner[1] * width / 384))] for corner in corners])
@@ -247,6 +253,7 @@ class CornerDetection():
                 predicted_square = self.predict_square(cropped_image)
 
                 # chessboard[i] = (chessboard[i][5], predicted_square)
+                print(chessboard[i][4], predicted_square)
                 predicted_chessboard.append((chessboard[i][4], predicted_square))
 
             print(predicted_chessboard)

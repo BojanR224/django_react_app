@@ -135,7 +135,7 @@ STOCKFISH_ENGINE = Stockfish(BASE_DIR / "stockfish/stockfish/stockfish-windows-x
 
 DETECTION_MODEL = keras.models.load_model(BASE_DIR / "chess_app/models/detection")
 
-PIECE_DETECTION_MODEL = tf.keras.models.load_model(BASE_DIR / "chess_app/models/piece_detection/my-modelv2")
+PIECE_DETECTION_MODEL = tf.keras.models.load_model(BASE_DIR / "chess_app/models/piece_detection/my-modelv5")
 
 IMAGE_FILE = BASE_DIR / "frontend/static/images/chess_images/chess_image.png"
 
